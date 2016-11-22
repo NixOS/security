@@ -1,0 +1,15 @@
+[package]
+name = "lwnvulns"
+version = "0.1.0"
+authors = ["Graham Christensen <graham@grahamc.com>"]
+
+[dependencies]
+regex = "0.1"
+lazy_static = "0.2.1"
+log = "0.3.6"
+scraper = "0.4.0"
+curl = "0.4.1"
+
+# Following are to make rustpackages work ... yuck!
+# Please try deleting these around, say, 2016-01-01
+serde = "=0.8.17"
