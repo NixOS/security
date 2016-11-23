@@ -15,10 +15,10 @@ cc: .
 _Note:_ The list of people CC'd on this issue participated in the last
 roundup. If you participate on this roundup, I'll cc you on the next
 one. If you don't participate in the next one, you won't be CC'd on
-the one after that. If you would like to be CC'd on the next roundup.
-If you would like to be CC'd on the next roundup, add a comment to the
-most recent vulnerability roundup. If you would like to be CC'd on
-_all_ roundups, leave a comment and tell @grahamc so.
+the one after that. If you would like to be CC'd on the next roundup,
+add a comment to the most recent vulnerability roundup.
+If you would like to be CC'd on _all_ roundups, leave a comment and
+tell @grahamc so.
 
 Permanent CC's: @joepie91, @NixOS/security-notifications
 (if you no longer want to be CC'd, ask to be removed from this list)
