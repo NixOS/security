@@ -32,6 +32,20 @@ copy and paste to/from my system clipboard. On Linux, it may be
 `xclip`. Make sure to read the manual on `xclip` to know how to use
 it.
 
+### Build the tools
+
+Start with `nix-build ./default.nix -A lwnvulns.pkg`. This will create
+the `result` symlink referenced here. Note, if you're doing
+development, you can enter a `nix-shell` (just run `nix-shell`) and
+replace `./result/bin/` with `cargo run --bin <command>`:
+
+    security$ nix-shell
+
+    [nix-shell:~/projects/security/lwnvulns]$ pbpaste | cargo run --bin reformat | pbcopy
+        Finished debug [unoptimized + debuginfo] target(s) in 0.0 secs
+         Running `target/debug/reformat`
+
+
 ### Making a new issue
 
     $ ./result/bin/new | pbcopy
