@@ -29,8 +29,7 @@ they work okay.
 
 Here is a typical workflow. I'll be using `pbcopy` and `pbpaste` to
 copy and paste to/from my system clipboard. On Linux, it may be
-`xclip`. Make sure to read the manual on `xclip` to know how to use
-it.
+`xclip -sel clip -i` and `xclip -sel clip -o`.
 
 ### Build the tools
 
