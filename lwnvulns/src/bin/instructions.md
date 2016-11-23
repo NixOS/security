@@ -27,11 +27,11 @@ Permanent CC's: @joepie91, @NixOS/security-notifications
 1. The reports have been roughly grouped by the package name. This
    isn't perfect, but is intended to help identify if a whole group
    of reports is resolved already.
-2. Some issues will be duplicated, because it affects multiple packages.
-   For example, there are sometimes problems that impact thunderbird,
-   and firefox. LWN might report in one vulnerability "thunderbird
-   firefox". These names have been split to make sure both packages get
-   addressed.
+2. Some issues will be duplicated, because it affects multiple
+   packages. For example, there are sometimes problems that impact
+   thunderbird, and firefox. LWN might report in one vulnerability
+   "thunderbird firefox". These names have been split to make sure
+   both packages get addressed.
 3. By each issue is a link to code search for the package name, and
    a Github search by filename. These are to help, but may not return
    results when we do in fact package the software. If a search
@@ -58,7 +58,7 @@ Permanent CC's: @joepie91, @NixOS/security-notifications
  - [ ] Run the issue through `reformat` one last time
  - [ ] Review commits since last roundup for backport candidates
  - [ ] Update https://github.com/NixOS/nixpkgs/issues/13515 with a
- summary.
+   summary.
  - [ ] Update the database at https://github.com/NixOS/security
 
 Without further ado...
