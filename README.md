@@ -137,12 +137,9 @@ master.
    which are security related, but are not cherrypicks from master.
    The [`ported`][ported] tool WILL miss these, so it is imperative to
    check.
-4. In the code for `ported.sh`, update the `UPSTREAM_OLDEST` to be the
-   current commit to `master` and update the `TO_OLDEST` to be the
-   current commit to the release branch. This will limit the search
-   for next time.
-5. Update the link at the end of the output to point to the latest
+4. Update the link at the end of the output to point to the latest
    security vulnerability roundup.
+5. Commit and push and open a PR with the updated ported state file.
 
 ## Developing
 
