@@ -31,7 +31,11 @@ git log --pretty=format:%H "$TO_OLDEST"..."$REMOTE/$RELEASE_NAMED" \
     | git patch-id --stable > $TMPTO/against
 
 cat <<EOF
-SUBJECT: Security fixes from $(date -u "+%F %R %Z")
+From: Graham Christensen <graham@grahamc.com>
+To: nix-security-announce@googlegroups.com
+Subject: Security fixes from $(date -u "+%F %R %Z")
+--text follows this line--
+<#secure method=pgpmime mode=sign>
 
 The following issues have been resolved in NixOS in unstable and
 $RELEASE_NAMED. They remain potentially vulnerable on older major
@@ -43,6 +47,9 @@ for each channel:
 
  - https://hydra.nixos.org/job/nixos/${RELEASE_NAMED}/tested
  - https://hydra.nixos.org/job/nixos/trunk-combined/tested
+
+Please consider helping with the next security roundup by commenting on
+LATEST_ROUNDUP_URL.
 
 EOF
 
