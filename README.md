@@ -60,7 +60,7 @@ few sections of things in here for you to do. Starting with:
      - [ ] Title it "Vulnerability Roundup <n>"
      - [ ] Update the last roundup link
      - [ ] CC everyone who participated in the previous roundup
-     - [ ] Tag with `security`
+     - [ ] Label with `security`
 
 
 Where, obviously, `<n>` is the last one +1. For example, if the last
