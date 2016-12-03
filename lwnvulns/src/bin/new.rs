@@ -169,6 +169,10 @@ fn split_packages(packages: String) -> Vec<String> {
         .map(|s| s.replace(",", "").to_string())
         .map(|s| if s == "tiff" {
             "libtiff".to_string()
+        } else if s == "libgc" {
+            "boehm-gc".to_string()
+        } else if s == "perl-DBD-MySQL" {
+            "DBD-mysql".to_string()
         } else {
             s
         })
