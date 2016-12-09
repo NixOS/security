@@ -32,11 +32,12 @@ in rec {
 
     shell = mkDerivation {
       name = "nixos-security-tools-shell";
-      src = pkgSrc;
+      src = ./.;
 
       formatcheck = formatcheckCmd;
 
       buildInputs = dependencies ++ (with pkgs; [
+        rustfmt
         rustc
         cargo
       ]);
