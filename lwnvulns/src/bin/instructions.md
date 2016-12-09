@@ -20,7 +20,7 @@ add a comment to the most recent vulnerability roundup.
 If you would like to be CC'd on _all_ roundups, leave a comment and
 tell @grahamc so.
 
-Permanent CC's: @joepie91, @NixOS/security-notifications
+Permanent CC's: @joepie91, @phanimahesh, @NixOS/security-notifications
 (if you no longer want to be CC'd, ask to be removed from this list)
 
 ## Notes on the list
@@ -57,8 +57,7 @@ Permanent CC's: @joepie91, @NixOS/security-notifications
 
  - [ ] Run the issue through `reformat` one last time
  - [ ] Review commits since last roundup for backport candidates
- - [ ] Update https://github.com/NixOS/nixpkgs/issues/13515 with a
-   summary.
+ - [ ] Send an update e-mail to nix-security-announce@googlegroups.com
  - [ ] Update the database at https://github.com/NixOS/security
 
 Without further ado...
