@@ -79,12 +79,10 @@ mod tests {
     #[test]
     fn test_lwnvulns_partition() {
         let mut input = Document {
-            preamble: vec![
-                Token::Preamble("this".to_string()),
-                Token::Preamble("is".to_string()),
-                Token::Preamble("garbage".to_string()),
-                Token::Preamble("### Here too! ( :) )".to_string()),
-            ],
+            preamble: vec![Token::Preamble("this".to_string()),
+                           Token::Preamble("is".to_string()),
+                           Token::Preamble("garbage".to_string()),
+                           Token::Preamble("### Here too! ( :) )".to_string())],
             report: HashMap::new(),
         };
 
@@ -95,33 +93,29 @@ mod tests {
                                     issue_count: 2,
                                     notes: Some(" lol".to_string()),
                                 },
-                                children: vec![
-                                     Issue {
-                                         complete: false,
-                                         content: "not done".to_string(),
-                                         source: SourceLink {
-                                             id: "not done".to_string(),
-                                             url: "http://not done".to_string(),
-                                         },
-                                     },
-                                     Issue {
-                                         complete: true,
-                                         content: "done".to_string(),
-                                         source: SourceLink {
-                                             id: "done".to_string(),
-                                             url: "http://done".to_string(),
-                                         },
-                                     },
-                                 ],
+                                children: vec![Issue {
+                                                   complete: false,
+                                                   content: "not done".to_string(),
+                                                   source: SourceLink {
+                                                       id: "not done".to_string(),
+                                                       url: "http://not done".to_string(),
+                                                   },
+                                               },
+                                               Issue {
+                                                   complete: true,
+                                                   content: "done".to_string(),
+                                                   source: SourceLink {
+                                                       id: "done".to_string(),
+                                                       url: "http://done".to_string(),
+                                                   },
+                                               }],
                             });
 
         let mut expect_todo = Document {
-            preamble: vec![
-                Token::Preamble("this".to_string()),
-                Token::Preamble("is".to_string()),
-                Token::Preamble("garbage".to_string()),
-                Token::Preamble("### Here too! ( :) )".to_string()),
-            ],
+            preamble: vec![Token::Preamble("this".to_string()),
+                           Token::Preamble("is".to_string()),
+                           Token::Preamble("garbage".to_string()),
+                           Token::Preamble("### Here too! ( :) )".to_string())],
             report: HashMap::new(),
         };
 
@@ -132,16 +126,14 @@ mod tests {
                                           issue_count: 1,
                                           notes: Some(" lol".to_string()),
                                       },
-                                      children: vec![
-                                          Issue {
-                                              complete: false,
-                                              content: "not done".to_string(),
-                                              source: SourceLink {
-                                                  id: "not done".to_string(),
-                                                  url: "http://not done".to_string(),
-                                              },
-                                          },
-                                      ],
+                                      children: vec![Issue {
+                                                         complete: false,
+                                                         content: "not done".to_string(),
+                                                         source: SourceLink {
+                                                             id: "not done".to_string(),
+                                                             url: "http://not done".to_string(),
+                                                         },
+                                                     }],
                                   });
 
         let mut expect_done = Document {
@@ -156,16 +148,14 @@ mod tests {
                                           issue_count: 1,
                                           notes: Some(" lol".to_string()),
                                       },
-                                      children: vec![
-                                          Issue {
-                                              complete: true,
-                                              content: "done".to_string(),
-                                              source: SourceLink {
-                                                  id: "done".to_string(),
-                                                  url: "http://done".to_string(),
-                                              },
-                                          },
-                                      ],
+                                      children: vec![Issue {
+                                                         complete: true,
+                                                         content: "done".to_string(),
+                                                         source: SourceLink {
+                                                             id: "done".to_string(),
+                                                             url: "http://done".to_string(),
+                                                         },
+                                                     }],
                                   });
 
 
@@ -179,12 +169,10 @@ mod tests {
     #[test]
     fn test_collapse_anemic() {
         let mut input = Document {
-            preamble: vec![
-                Token::Preamble("this".to_string()),
-                Token::Preamble("is".to_string()),
-                Token::Preamble("garbage".to_string()),
-                Token::Preamble("### Here too! ( :) )".to_string()),
-            ],
+            preamble: vec![Token::Preamble("this".to_string()),
+                           Token::Preamble("is".to_string()),
+                           Token::Preamble("garbage".to_string()),
+                           Token::Preamble("### Here too! ( :) )".to_string())],
             report: HashMap::new(),
         };
 
@@ -195,16 +183,14 @@ mod tests {
                                     issue_count: 1,
                                     notes: Some(" lol".to_string()),
                                 },
-                                children: vec![
-                                     Issue {
-                                         complete: false,
-                                         content: "not done".to_string(),
-                                         source: SourceLink {
-                                             id: "not done".to_string(),
-                                             url: "http://not done".to_string(),
-                                         },
-                                     },
-                                 ],
+                                children: vec![Issue {
+                                                   complete: false,
+                                                   content: "not done".to_string(),
+                                                   source: SourceLink {
+                                                       id: "not done".to_string(),
+                                                       url: "http://not done".to_string(),
+                                                   },
+                                               }],
                             });
 
         input.report.insert("This is a header too".to_string(),
@@ -214,26 +200,22 @@ mod tests {
                                     issue_count: 1,
                                     notes: Some(" lol".to_string()),
                                 },
-                                children: vec![
-                                     Issue {
-                                         complete: true,
-                                         content: "done".to_string(),
-                                         source: SourceLink {
-                                             id: "done".to_string(),
-                                             url: "http://done".to_string(),
-                                         },
-                                     },
-                                 ],
+                                children: vec![Issue {
+                                                   complete: true,
+                                                   content: "done".to_string(),
+                                                   source: SourceLink {
+                                                       id: "done".to_string(),
+                                                       url: "http://done".to_string(),
+                                                   },
+                                               }],
                             });
 
 
         let mut expect = Document {
-            preamble: vec![
-                Token::Preamble("this".to_string()),
-                Token::Preamble("is".to_string()),
-                Token::Preamble("garbage".to_string()),
-                Token::Preamble("### Here too! ( :) )".to_string()),
-            ],
+            preamble: vec![Token::Preamble("this".to_string()),
+                           Token::Preamble("is".to_string()),
+                           Token::Preamble("garbage".to_string()),
+                           Token::Preamble("### Here too! ( :) )".to_string())],
             report: HashMap::new(),
         };
 
@@ -244,24 +226,22 @@ mod tests {
                                      issue_count: 2,
                                      notes: None,
                                  },
-                                 children: vec![
-                                          Issue {
-                                              complete: false,
-                                              content: "not done".to_string(),
-                                              source: SourceLink {
-                                                  id: "not done".to_string(),
-                                                  url: "http://not done".to_string(),
-                                              },
-                                          },
-                                          Issue {
-                                              complete: true,
-                                              content: "done".to_string(),
-                                              source: SourceLink {
-                                                  id: "done".to_string(),
-                                                  url: "http://done".to_string(),
-                                              },
-                                          },
-                                      ],
+                                 children: vec![Issue {
+                                                    complete: false,
+                                                    content: "not done".to_string(),
+                                                    source: SourceLink {
+                                                        id: "not done".to_string(),
+                                                        url: "http://not done".to_string(),
+                                                    },
+                                                },
+                                                Issue {
+                                                    complete: true,
+                                                    content: "done".to_string(),
+                                                    source: SourceLink {
+                                                        id: "done".to_string(),
+                                                        url: "http://done".to_string(),
+                                                    },
+                                                }],
                              });
 
 

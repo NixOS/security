@@ -174,38 +174,36 @@ garbage2
  - [x] [`#7890`](http://bar...) done
 garbage3
 ";
-    let expect = vec![
-        Token::Preamble("this".to_string()),
-        Token::Preamble("is".to_string()),
-        Token::Preamble("garbage".to_string()),
-        Token::Preamble("### Here too! ( :) )".to_string()),
-        Token::Header(Header {
-            package: "This is a header".to_string(),
-            issue_count: 0,
-            notes: None
-        }),
-        Token::Header(Header {
-            package: "This is a header too".to_string(),
-            issue_count: 1,
-            notes: Some("lol".to_string())
-        }),
-        Token::Issue(Issue {
-            complete: false,
-             source: SourceLink {
-                url: "http://foo...".to_string(),
-                id: "123456".to_string()
-            },
-            content: "not done".to_string(),
-        }),
-        Token::Issue(Issue {
-            complete: true,
-            source: SourceLink {
-                url: "http://bar...".to_string(),
-                id: "7890".to_string()
-            },
-            content: "done".to_string(),
-        }),
-    ];
+    let expect = vec![Token::Preamble("this".to_string()),
+                      Token::Preamble("is".to_string()),
+                      Token::Preamble("garbage".to_string()),
+                      Token::Preamble("### Here too! ( :) )".to_string()),
+                      Token::Header(Header {
+                          package: "This is a header".to_string(),
+                          issue_count: 0,
+                          notes: None,
+                      }),
+                      Token::Header(Header {
+                          package: "This is a header too".to_string(),
+                          issue_count: 1,
+                          notes: Some("lol".to_string()),
+                      }),
+                      Token::Issue(Issue {
+                          complete: false,
+                          source: SourceLink {
+                              url: "http://foo...".to_string(),
+                              id: "123456".to_string(),
+                          },
+                          content: "not done".to_string(),
+                      }),
+                      Token::Issue(Issue {
+                          complete: true,
+                          source: SourceLink {
+                              url: "http://bar...".to_string(),
+                              id: "7890".to_string(),
+                          },
+                          content: "done".to_string(),
+                      })];
 
     assert_eq!(tokenize(input.to_string()), expect);
 }
