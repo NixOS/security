@@ -97,15 +97,7 @@ accidentally delete progress not loaded on your page.
 ### Closing an issue
 
 After the roundup is done and all the issues are solved, make sure to
-finish out this list:
-
-    ## Upon Completion ...
-     - [ ] Run the issue through `reformat` one last time
-       through `reformat` again to show all the issues again.
-     - [ ] Review commits since last roundup for backport candidates
-     - [ ] Update https://github.com/NixOS/nixpkgs/issues/13515 with a
-     summary.
-     - [ ] Update the database at https://github.com/NixOS/security
+finish out the list at the top of each issue.
 
 ### Updating the database
 
@@ -115,31 +107,31 @@ accidentally delete progress not loaded on your page.
 3. `pbpaste | ./result/bin/updatedb >> db`
 4. Commit these changes, and open a PR with the new changes.
 
-### Review and backport commits from master to  stable (`release-16.09`)
+### Review and backport commits from master to stable (`release-16.09`)
 
-Page through commits to `master` and try and find all commits which
-contained security fixes. Make sure any security fixes to master are
-applied to the stable branch as well. If not, cherry-pick them
-yourself. If you're not sure, open a PR with the backported commits.
+Run `./notate.sh` from within the nixpkgs checkout to go through each
+commit since the previous review. It will ask if the commit should
+have security notes attached to it. Saying yes will open an editor to
+add notes. Try looking at release notes or the pull request to
+determine if there are security implications. If there are, add CVE
+information and perhaps some notes about what the issue is. Make sure
+any security fixes to master are applied to the stable branch as well.
+If not, cherry-pick them yourself. If you're not sure, open a PR with
+the backported commits.
+
+In the `state/notate_state.sh` state file, we track the last commit to
+be reviewed.
 
 ### Creating an Announcement
 
-This tool is quite rough. It is [`./ported.sh`][ported] and it looks
-at all the commits on the release which were cherry-picked from
-master.
-
-1. `cd` in to a nixpkgs clone and run [`ported.sh`][ported]. It will
-   output a rough template of all the announcements to make, but make
-   sure to audit it and review, by following the remainder of these
-   steps.
-2. Delete any backported commit lines which _were not_ for security.
-3. Page through the commits to the release branch and identify commits
-   which are security related, but are not cherrypicks from master.
-   The [`ported`][ported] tool WILL miss these, so it is imperative to
-   check.
-4. Update the link at the end of the output to point to the latest
+1. `cd` in to a nixpkgs clone and run [`ported-notes.sh`][ported]. It
+   will output a rough template of all the announcements to make, but
+   make sure to audit it and review, by following the remainder of
+   these steps.
+2. Update the link at the end of the output to point to the latest
    security vulnerability roundup.
-5. Commit and push and open a PR with the updated ported state file.
+3. Commit and push and open a PR with the updated ported state file.
+4. Send the generated email
 
 ## Developing
 
