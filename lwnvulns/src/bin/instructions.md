@@ -8,7 +8,7 @@
 ---
 
 Here are all the vulnerabilities from https://lwn.net/Vulnerabilities
-since our [last roundup]()
+since our [last roundup]().
 
 cc: .
 
@@ -17,11 +17,12 @@ roundup. If you participate on this roundup, I'll cc you on the next
 one. If you don't participate in the next one, you won't be CC'd on
 the one after that. If you would like to be CC'd on the next roundup,
 add a comment to the most recent vulnerability roundup.
-If you would like to be CC'd on _all_ roundups, leave a comment and
-tell @grahamc so.
 
-Permanent CC's: @joepie91, @phanimahesh, @NixOS/security-notifications
-(if you no longer want to be CC'd, ask to be removed from this list)
+Permanent CC's: @joepie91, @phanimahesh, @the-kenny,
+@NixOS/security-notifications
+If you would like to be CC'd on _all_ roundups (or removed from the
+list), open a PR editing
+https://github.com/NixOS/security/blob/master/lwnvulns/src/bin/instructions.md.
 
 ## Notes on the list
 1. The reports have been roughly grouped by the package name. This
