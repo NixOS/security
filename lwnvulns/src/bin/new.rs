@@ -173,6 +173,8 @@ fn split_packages(packages: String) -> Vec<String> {
             "boehm-gc".to_string()
         } else if s == "perl-DBD-MySQL" {
             "DBD-mysql".to_string()
+        } else if s == "httpd" {
+            "apache-httpd".to_string()
         } else {
             s
         })
