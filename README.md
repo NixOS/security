@@ -16,8 +16,11 @@ When a roundup issue is closed, the contents of it are sent to the
 vulnerability IDs marked as done in the roundup. This should then
 appended to the `db` file.
 
-The shell script [`ported.sh`][ported] looks for cherry-picked commits
-from master to stable, to make most of a security announcement.
+The shell script `./notate.sh` peruses all the recent commits and
+prompts for security notes to be added.
+
+Finally, `./ported-notes.sh` takes the security notes and makes a
+security announcement email's text.
 
 ### Tool Interface
 
@@ -124,7 +127,7 @@ be reviewed.
 
 ### Creating an Announcement
 
-1. `cd` in to a nixpkgs clone and run [`ported-notes.sh`][ported]. It
+1. `cd` in to a nixpkgs clone and run `ported-notes.sh`. It
    will output a rough template of all the announcements to make, but
    make sure to audit it and review, by following the remainder of
    these steps.
@@ -280,4 +283,3 @@ functional languages that are vogue in the Nix ecosystem.
 [new]: ./lwnvulns/src/bin/new.rs
 [reformat]: ./lwnvulns/src/bin/reformat.rs
 [updatedb]: ./lwnvulns/src/bin/updatedb.rs
-[ported]: ./ported.sh
