@@ -4,13 +4,59 @@ let
   inherit (pkgs) writeTextFile;
   inherit (pkgs.stdenv) mkDerivation;
   inherit (pkgs.rustPlatform) buildRustPackage;
+
+  shellcheckCmd = ''
+    echo "=========================================================="
+    echo "----> Shellchecking:"
+    for file in `find . -name '*.sh'`; do
+      echo "----> $file"
+      ${pkgs.shellcheck}/bin/shellcheck -e SC1090 -e SC1091 -x $file
+    done
+  '';
 in rec {
   ci = writeTextFile {
     name = "tests";
     text = ''
       ${lwnvulns.pkg}
+      ${notate.pkgSrc}
+      ${ported-notes.pkgSrc}
     '';
   };
+
+  notate = rec {
+    pkgSrc = mkDerivation {
+      name = "notate-src";
+      src = ./notate.sh;
+
+      unpackPhase = ''
+        cp $src .
+      '';
+      buildPhase = shellcheckCmd;
+
+      installPhase = ''
+        mkdir $out
+        cp -r $src $out/notate.sh
+      '';
+    };
+  };
+
+  ported-notes = rec {
+    pkgSrc = mkDerivation {
+      name = "ported-notes-src";
+      src = ./ported-notes.sh;
+
+      unpackPhase = ''
+        cp $src .
+      '';
+      buildPhase = shellcheckCmd;
+
+      installPhase = ''
+        mkdir $out
+        cp -r $src $out/ported-note.sh
+      '';
+    };
+  };
+
 
   lwnvulns = rec {
     dependencies = with pkgs; [
@@ -24,7 +70,7 @@ in rec {
     formatcheckCmd = ''
       echo "=========================================================="
       echo "----> Formatting:"
-      for file in `find . -name '*.rs' -not -path '*/target/*'`; do
+      for file in `find . -name '*.rs' -not -path '*/target/*'`; do # */ Hi emacs ...
         echo "----> $file"
         ${pkgs.rustfmt}/bin/rustfmt --write-mode=diff "$file"
       done
