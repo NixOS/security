@@ -61,28 +61,37 @@ mark_commit_ui() {
 
 git fetch origin
 git checkout refs/notes/security
-
-cleanup() {
-    echo "UPSTREAM_OLDEST=$next_UPSTREAM_OLDEST" > "$DIR/state/notate_state.sh"
-    echo "TO_OLDEST=$next_TO_OLDEST" >> "$DIR/state/notate_state.sh"
+cleanup_basic() {
     git checkout -
 }
-next_UPSTREAM_OLDEST=$UPSTREAM_OLDEST
-next_TO_OLDEST=$TO_OLDEST
-trap cleanup EXIT
+trap cleanup_basic EXIT
 
 
-for sha in $(git rev-list --reverse --no-merges "$UPSTREAM_OLDEST...origin/master"); do
-    mark_commit_ui "$sha"
-    next_UPSTREAM_OLDEST="$sha"
-done
+if [ "x$1" != "x" ]; then
+    mark_commit_ui "$1"
+else
+    cleanup() {
+        echo "UPSTREAM_OLDEST=$next_UPSTREAM_OLDEST" > "$DIR/state/notate_state.sh"
+        echo "TO_OLDEST=$next_TO_OLDEST" >> "$DIR/state/notate_state.sh"
+        cleanup_basic
+    }
+    next_UPSTREAM_OLDEST=$UPSTREAM_OLDEST
+    next_TO_OLDEST=$TO_OLDEST
+    trap cleanup EXIT
 
-for sha in $(git rev-list --reverse --no-merges "$TO_OLDEST...origin/$RELEASE_BRANCH"); do
-    mark_commit_ui "$sha"
-    next_TO_OLDEST="$sha"
-done
 
-echo "Going to commit these changes now"
+    for sha in $(git rev-list --reverse --no-merges "$UPSTREAM_OLDEST...origin/master"); do
+        mark_commit_ui "$sha"
+        next_UPSTREAM_OLDEST="$sha"
+    done
+
+    for sha in $(git rev-list --reverse --no-merges "$TO_OLDEST...origin/$RELEASE_BRANCH"); do
+        mark_commit_ui "$sha"
+        next_TO_OLDEST="$sha"
+    done
+
+    echo "Going to commit these changes now"
+fi
 
 git commit
 git update-ref refs/notes/security "$(git rev-parse HEAD)"
