@@ -67,7 +67,7 @@ cleanup_basic() {
 trap cleanup_basic EXIT
 
 
-if [ "x$1" != "x" ]; then
+if [ "x${1:-}" != "x" ]; then
     mark_commit_ui "$1"
 else
     cleanup() {
