@@ -39,10 +39,21 @@ mark_commit_ui() {
         fi
     fi
 
-    echo -n "Does this need security notes or editing? [y/N]: ";
+    echo -n "Does this need security notes or editing? [y/N or: kernel]: ";
     read -r x;
+    EDITED=0
     if [ "x$x" = "xy" ]; then
         $EDITOR "$sha"
+        EDITED=1
+    elif [ "x$x" = "xbrowser" ]; then
+        echo "All browser patches are considered security-sensitive." >> "$sha"
+        EDITED=1
+    elif [ "x$x" = "xkernel" ]; then
+        echo "All kernel patches are considered security-sensitive." >> "$sha"
+        EDITED=1
+    fi
+
+    if [ $EDITED -eq 1 ]; then
         git add "./$sha"
 
         if [ "x$picked_from" != "x" ] && ! test -f "./$picked_from"; then

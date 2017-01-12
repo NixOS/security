@@ -110,7 +110,7 @@ From: Graham Christensen <graham@grahamc.com>
 To: nix-security-announce@googlegroups.com
 Subject: Security fixes from $(date -u "+%F %R %Z")
 --text follows this line--
-<#secure method=pgpmime mode=sign>
+<#secure method=pgp mode=sign>
 
 The following issues have been resolved in NixOS in $TO and
 unstable. They remain potentially vulnerable on older major
