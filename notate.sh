@@ -5,6 +5,9 @@
 set -eu
 set -o pipefail
 
+# Disable Ctrl-C since it can be very frustrating to lose progress
+trap '' 2
+
 readonly height=$(stty -a | grep rows | cut -d";" -f2 | cut -d' ' -f3)
 readonly RELEASE_BRANCH=release-16.09
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
