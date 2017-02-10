@@ -18,7 +18,7 @@ one. If you don't participate in the next one, you won't be CC'd on
 the one after that. If you would like to be CC'd on the next roundup,
 add a comment to the most recent vulnerability roundup.
 
-Permanent CC's: @joepie91, @phanimahesh, @the-kenny, @7c6f434c, @k0001
+Permanent CC's: @joepie91, @phanimahesh, @the-kenny, @7c6f434c, @k0001, @peterhoeg
 @NixOS/security-notifications
 If you would like to be CC'd on _all_ roundups (or removed from the
 list), open a PR editing
