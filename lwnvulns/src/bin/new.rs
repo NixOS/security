@@ -19,10 +19,10 @@ struct LwnRow {
     description: String,
 }
 
-fn main() {
+fn load_db(src: &str) -> Vec<String> {
     let mut db: Vec<String> = vec![];
     {
-        let mut f = File::open("./db").unwrap();
+        let mut f = File::open(src).unwrap();
         let mut s = String::new();
         f.read_to_string(&mut s).unwrap();
         for entry in s.split_whitespace() {
@@ -30,6 +30,11 @@ fn main() {
         }
     }
 
+    return db;
+}
+
+fn main() {
+    let db = load_db("./db");
 
 
     let mut tokens: Vec<Token> = tokenize(include_str!("./instructions.md").to_string());
