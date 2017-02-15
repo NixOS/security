@@ -115,14 +115,16 @@ fn tokens_from_html(html: scraper::Html) -> Vec<Token> {
     let descriptions = Selector::parse("td:nth-child(4)").unwrap();
     for row in html.select(&rows) {
         if let Some(link) = row.select(&links).next() {
-            let package = row.select(&packages).next().unwrap().text().next().unwrap();
-            let description = row.select(&descriptions).next().unwrap().text().next().unwrap();
+            let package = extract_cell_text(row.select(&packages))
+                .unwrap_or("unknown package".to_string());
+            let description = extract_cell_text(row.select(&descriptions))
+                .unwrap_or(package.clone()); // sometimes the desc is missing
 
             let lwnrow = LwnRow {
                 url: link.value().attr("href").unwrap().to_string(),
                 id: link.inner_html(),
-                packages: package.to_string(),
-                description: description.to_string(),
+                packages: package,
+                description: description,
             };
             for token in row_to_tokens(lwnrow) {
                 tokens.push(token);
@@ -131,6 +133,17 @@ fn tokens_from_html(html: scraper::Html) -> Vec<Token> {
     }
 
     return tokens;
+}
+
+fn extract_cell_text(mut cell: scraper::element_ref::Select) -> Option<String> {
+    if let Some(td_elem) = cell.next() {
+        let mut text_iterator = td_elem.text();
+        if let Some(description) = text_iterator.next() {
+            return Some(description.to_string());
+        }
+    }
+
+    return None;
 }
 
 fn row_to_tokens(row: LwnRow) -> Vec<Token> {
