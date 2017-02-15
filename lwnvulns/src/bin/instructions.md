@@ -1,9 +1,11 @@
 # POSTING TODO (DELETE PRIOR TO POSTING)
 
- - [ ] Title it "Vulnerability Roundup <n>"
+ - [ ] Title it "Vulnerability Roundup <n>" psst: find the old one via:
+       https://github.com/NixOS/nixpkgs/issues?q=is%3Aissue+%22Vulnerability+Roundup%22
  - [ ] Update the last roundup link
  - [ ] CC everyone who participated in the previous roundup
  - [ ] Tag with `security`
+ - [ ] Delete this todo text
 
 ---
 
