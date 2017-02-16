@@ -96,9 +96,30 @@ log_commit() {
 
     commit="$1"
 
+    author=$(git show --no-patch --notes=security --pretty="format:%an" "${commit}")
+    committer=$(git show --no-patch --notes=security --pretty="format:%cn" "${commit}")
+
+    dontthank="Graham Christensen"
+    if [ "x$author" = "x$committer" ]; then
+        if [ "x$author" = "x$dontthank" ]; then
+            thanks="";
+        else
+            thanks="(Thank you, $author)"
+        fi
+    elif [ "x$author" = "x$dontthank" ]; then
+        thanks="(Thank you, ${committer} (committer))"
+    elif [ "x$committer" = "x$dontthank" ]; then
+        thanks="(Thank you, ${author} (author))"
+    else
+        thanks="(Thank you: ${author} (author), ${committer} (committer))"
+    fi
+
     git show --no-patch --notes=security --pretty="format:
 %h  %<(60,trunc)%s
 " "${commit}"
+    if [ "x$thanks" != "x" ]; then
+        echo "$thanks"
+    fi
     git show --no-patch --notes=security \
         --pretty="format:%N" "${commit}" \
         | sed -e 's/^/> /'
