@@ -74,6 +74,7 @@ mark_commit_ui() {
 }
 
 git fetch origin
+git pull origin refs/notes/security:refs/notes/security
 git checkout refs/notes/security
 cleanup_basic() {
     git checkout -
@@ -109,3 +110,4 @@ fi
 
 git commit
 git update-ref refs/notes/security "$(git rev-parse HEAD)"
+git push origin refs/notes/security:refs/notes/security
