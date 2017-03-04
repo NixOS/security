@@ -86,9 +86,11 @@ else
 
     next_MASTER_SEEN=$MASTER_SEEN
     next_RELEASE_16_09_SEEN=$RELEASE_16_09_SEEN
+    next_RELEASE_17_03_SEEN=$RELEASE_17_03_SEEN
     cleanup() {
         echo "MASTER_SEEN=$next_MASTER_SEEN" > "$DIR/state/notate_state.sh"
         echo "RELEASE_16_09_SEEN=$next_RELEASE_16_09_SEEN" >> "$DIR/state/notate_state.sh"
+        echo "RELEASE_17_03_SEEN=$next_RELEASE_17_03_SEEN" >> "$DIR/state/notate_state.sh"
         cleanup_basic
     }
     trap cleanup EXIT
@@ -99,6 +101,14 @@ else
     for sha in $(git rev-list --reverse --no-merges "$MASTER_SEEN...origin/master"); do
         mark_commit_ui "$sha"
         next_MASTER_SEEN="$sha"
+    done
+
+    echo "Processing $RELEASE_17_03_SEEN...origin/release-17.03"
+    echo "Press enter to continue."
+    read
+    for sha in $(git rev-list --reverse --no-merges "$RELEASE_17_03_SEEN...origin/release-17.03"); do
+        mark_commit_ui "$sha"
+        next_RELEASE_17_03_SEEN="$sha"
     done
 
     echo "Processing $RELEASE_16_09_SEEN...origin/release-16.09"
