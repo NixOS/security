@@ -71,7 +71,7 @@ mark_commit_ui() {
 }
 
 git fetch origin
-git pull origin refs/notes/security:refs/notes/security
+git fetch origin refs/notes/security:refs/notes/security
 git checkout refs/notes/security
 cleanup_basic() {
     git checkout -
