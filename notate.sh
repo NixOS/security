@@ -93,11 +93,17 @@ else
     }
     trap cleanup EXIT
 
+    echo "Processing $MASTER_SEEN...origin/master"
+    echo "Press enter to continue."
+    read
     for sha in $(git rev-list --reverse --no-merges "$MASTER_SEEN...origin/master"); do
         mark_commit_ui "$sha"
         next_MASTER_SEEN="$sha"
     done
 
+    echo "Processing $RELEASE_16_09_SEEN...origin/release-16.09"
+    echo "Press enter to continue."
+    read
     for sha in $(git rev-list --reverse --no-merges "$RELEASE_16_09_SEEN...origin/release-16.09"); do
         mark_commit_ui "$sha"
         next_RELEASE_16_09_SEEN="$sha"
