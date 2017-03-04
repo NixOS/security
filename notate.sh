@@ -10,6 +10,12 @@ trap '' 2
 readonly height=$(stty -a | grep rows | cut -d";" -f2 | cut -d' ' -f3)
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+commit_to_file() {
+    prefix=$(echo "$1" | head -c2);
+    suffix=$(echo "$1" | tail -c+3);
+    mkdir -p "$prefix";
+    echo "$prefix/$suffix";
+}
 
 extract_cherrypick() {
     git show "$1" -- \
@@ -19,6 +25,7 @@ extract_cherrypick() {
 
 mark_commit_ui() {
     sha="$1"
+    sha_file=$(commit_to_file "$sha")
     clear
     set +e
     git show --notes=security --color=always "$sha" -- | head -n $((height - 8));
@@ -26,16 +33,19 @@ mark_commit_ui() {
 
     local picked_from;
     picked_from=$(extract_cherrypick "$sha")
-    if [ "x$picked_from" != "x" ] && test -f "./$picked_from"; then
-        echo "Found these notes from $picked_from:"
-        cat "$picked_from"
-        echo ""
-        echo "Want to use them? [Y/n]: "
+    if [ "x$picked_from" != "x" ]; then
+        picked_from_file=$(commit_to_file "$picked_from")
+        if test -f "./$picked_from_file"; then
+            echo "Found these notes from $picked_from:"
+            cat "$picked_from_file"
+            echo ""
+            echo "Want to use them? [Y/n]: "
 
-        read -r x;
-        if [ "x$x" != "xn" ]; then
-            cp "./$picked_from" "./$sha"
-            git add "./$sha"
+            read -r x;
+            if [ "x$x" != "xn" ]; then
+                cp "./$picked_from_file" "./$sha_file"
+                git add "./$sha_file"
+            fi
         fi
     fi
 
@@ -43,27 +53,30 @@ mark_commit_ui() {
     read -r x;
     EDITED=0
     if [ "x$x" = "xy" ]; then
-        $EDITOR "$sha"
+        $EDITOR "$sha_file"
         EDITED=1
     elif [ "x$x" = "xbrowser" ]; then
-        echo "All browser patches are considered security-sensitive." >> "$sha"
+        echo "All browser patches are considered security-sensitive." >> "$sha_file"
         EDITED=1
     elif [ "x$x" = "xkernel" ]; then
-        echo "All kernel patches are considered security-sensitive." >> "$sha"
+        echo "All kernel patches are considered security-sensitive." >> "$sha_file"
         EDITED=1
     fi
 
     if [ $EDITED -eq 1 ]; then
-        git add "./$sha"
+        git add "./$sha_file"
 
-        if [ "x$picked_from" != "x" ] && ! test -f "./$picked_from"; then
-            echo "This commit was cherry-picked from $picked_from."
-            echo "Backport your notes? [Y/n]:"
+        if [ "x$picked_from" != "x" ]; then
+            picked_from_file=$(commit_to_file "$picked_from")
+            if ! test -f "./$picked_from_file"; then
+                echo "This commit was cherry-picked from $picked_from."
+                echo "Backport your notes? [Y/n]:"
 
-            read -r x;
-            if [ "x$x" != "xn" ]; then
-                cp "./$sha" "./$picked_from"
-                git add "./$picked_from"
+                read -r x;
+                if [ "x$x" != "xn" ]; then
+                    cp "./$sha_file" "./$picked_from_file"
+                    git add "./$picked_from_file"
+                fi
             fi
         fi
     fi
