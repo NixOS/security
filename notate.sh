@@ -49,7 +49,7 @@ mark_commit_ui() {
         fi
     fi
 
-    echo -n "Does this need security notes or editing? [y/N or: kernel, browser]: ";
+    echo -n "Does this need security notes or editing? [quit, y/N, kernel, browser]: ";
     read -r x;
     EDITED=0
     if [ "x$x" = "xy" ]; then
@@ -61,6 +61,8 @@ mark_commit_ui() {
     elif [ "x$x" = "xkernel" ]; then
         echo "All kernel patches are considered security-sensitive." >> "$sha_file"
         EDITED=1
+    elif [ "x$x" = "xquit" ]; then
+        exit 1
     fi
 
     if [ $EDITED -eq 1 ]; then
@@ -91,6 +93,14 @@ cleanup_basic() {
 }
 trap cleanup_basic EXIT
 
+prompt_next() {
+    echo "Processing $@"
+    echo "Press enter to continue, or quit to exit."
+    read -r x
+    if [ "x$x" == "xquit" ]; then
+        exit 1
+    fi
+}
 
 if [ "x${1:-}" != "x" ]; then
     mark_commit_ui "$1"
@@ -104,37 +114,32 @@ else
         echo "MASTER_SEEN=$next_MASTER_SEEN" > "$DIR/state/notate_state.sh"
         echo "RELEASE_16_09_SEEN=$next_RELEASE_16_09_SEEN" >> "$DIR/state/notate_state.sh"
         echo "RELEASE_17_03_SEEN=$next_RELEASE_17_03_SEEN" >> "$DIR/state/notate_state.sh"
+
+        echo "Going to commit these changes now"
+        git commit
+        git update-ref refs/notes/security "$(git rev-parse HEAD)"
+        git push origin refs/notes/security:refs/notes/security
+
         cleanup_basic
     }
     trap cleanup EXIT
 
-    echo "Processing $MASTER_SEEN...origin/master"
-    echo "Press enter to continue."
-    read
+    prompt_next "$MASTER_SEEN...origin/master"
     for sha in $(git rev-list --reverse --no-merges "$MASTER_SEEN...origin/master"); do
         mark_commit_ui "$sha"
         next_MASTER_SEEN="$sha"
     done
 
-    echo "Processing $RELEASE_17_03_SEEN...origin/release-17.03"
-    echo "Press enter to continue."
-    read
+    prompt_next "$RELEASE_17_03_SEEN...origin/release-17.03"
     for sha in $(git rev-list --reverse --no-merges "$RELEASE_17_03_SEEN...origin/release-17.03"); do
         mark_commit_ui "$sha"
         next_RELEASE_17_03_SEEN="$sha"
     done
 
-    echo "Processing $RELEASE_16_09_SEEN...origin/release-16.09"
-    echo "Press enter to continue."
-    read
+    prompt_next "$RELEASE_16_09_SEEN...origin/release-16.09"
     for sha in $(git rev-list --reverse --no-merges "$RELEASE_16_09_SEEN...origin/release-16.09"); do
         mark_commit_ui "$sha"
         next_RELEASE_16_09_SEEN="$sha"
     done
 
-    echo "Going to commit these changes now"
 fi
-
-git commit
-git update-ref refs/notes/security "$(git rev-parse HEAD)"
-git push origin refs/notes/security:refs/notes/security
