@@ -82,27 +82,25 @@ trap cleanup_basic EXIT
 if [ "x${1:-}" != "x" ]; then
     mark_commit_ui "$1"
 else
-
     . "$DIR/state/notate_state.sh"
-    readonly RELEASE_BRANCH="release-16.09"
-    next_UPSTREAM_OLDEST=$UPSTREAM_OLDEST
-    next_TO_OLDEST=$TO_OLDEST
+
+    next_MASTER_SEEN=$MASTER_SEEN
+    next_RELEASE_16_09_SEEN=$RELEASE_16_09_SEEN
     cleanup() {
-        echo "UPSTREAM_OLDEST=$next_UPSTREAM_OLDEST" > "$DIR/state/notate_state.sh"
-        echo "TO_OLDEST=$next_TO_OLDEST" >> "$DIR/state/notate_state.sh"
+        echo "MASTER_SEEN=$next_MASTER_SEEN" > "$DIR/state/notate_state.sh"
+        echo "RELEASE_16_09_SEEN=$next_RELEASE_16_09_SEEN" >> "$DIR/state/notate_state.sh"
         cleanup_basic
     }
     trap cleanup EXIT
 
-
-    for sha in $(git rev-list --reverse --no-merges "$UPSTREAM_OLDEST...origin/master"); do
+    for sha in $(git rev-list --reverse --no-merges "$MASTER_SEEN...origin/master"); do
         mark_commit_ui "$sha"
-        next_UPSTREAM_OLDEST="$sha"
+        next_MASTER_SEEN="$sha"
     done
 
-    for sha in $(git rev-list --reverse --no-merges "$TO_OLDEST...origin/$RELEASE_BRANCH"); do
+    for sha in $(git rev-list --reverse --no-merges "$RELEASE_16_09_SEEN...origin/release-16.09"); do
         mark_commit_ui "$sha"
-        next_TO_OLDEST="$sha"
+        next_RELEASE_16_09_SEEN="$sha"
     done
 
     echo "Going to commit these changes now"
