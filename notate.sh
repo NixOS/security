@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p git -p ncurses
+#!nix-shell -i bash -p git
 
 set -eu
 set -o pipefail
@@ -9,10 +8,8 @@ set -o pipefail
 trap '' 2
 
 readonly height=$(stty -a | grep rows | cut -d";" -f2 | cut -d' ' -f3)
-readonly RELEASE_BRANCH=release-16.09
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-. "$DIR/state/notate_state.sh"
 
 extract_cherrypick() {
     git show "$1" -- \
@@ -85,13 +82,16 @@ trap cleanup_basic EXIT
 if [ "x${1:-}" != "x" ]; then
     mark_commit_ui "$1"
 else
+
+    . "$DIR/state/notate_state.sh"
+    readonly RELEASE_BRANCH="release-16.09"
+    next_UPSTREAM_OLDEST=$UPSTREAM_OLDEST
+    next_TO_OLDEST=$TO_OLDEST
     cleanup() {
         echo "UPSTREAM_OLDEST=$next_UPSTREAM_OLDEST" > "$DIR/state/notate_state.sh"
         echo "TO_OLDEST=$next_TO_OLDEST" >> "$DIR/state/notate_state.sh"
         cleanup_basic
     }
-    next_UPSTREAM_OLDEST=$UPSTREAM_OLDEST
-    next_TO_OLDEST=$TO_OLDEST
     trap cleanup EXIT
 
 
