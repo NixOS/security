@@ -42,7 +42,7 @@ mark_commit_ui() {
         fi
     fi
 
-    echo -n "Does this need security notes or editing? [y/N or: kernel]: ";
+    echo -n "Does this need security notes or editing? [y/N or: kernel, browser]: ";
     read -r x;
     EDITED=0
     if [ "x$x" = "xy" ]; then
