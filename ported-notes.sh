@@ -129,6 +129,17 @@ This means when 17.03 is released you should upgrade as soon as
 possible. To ease this transition, I've decided to extend 16.09
 security patches for one month after 17.03 is released.
 
+You can switch from 16.09 to 17.03-beta via:
+
+$ sudo nix-channel --add https://nixos.org/channels/nixos-17.03 nixos
+$ sudo nix-channel --update
+$ sudo nixos-rebuild boot
+$ reboot
+
+Note: Don't use nixos-rebuild switch. The path to setuid wrappers has
+changed, and using switch will break setuid binaries (like sudo, ping,
+etc.) until you reboot.
+
 Please consider helping with the next security roundup by commenting on
 LATEST_ROUNDUP_URL.
 
