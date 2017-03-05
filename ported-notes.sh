@@ -29,21 +29,15 @@ debug() {
     set -u
 }
 
-unstable_commits() {
+commits() {
     local cache
-    cache="$TMPTO/unstable_commits"
+    local branchname
+    local range
+    branchname="$1"
+    range="$2"
+    cache="$TMPTO/${branchname}_commits"
     if [ ! -f "$cache" ]; then
-        git rev-list "$UPSTREAM_OLDEST..$REMOTE/$UPSTREAM" | tee "$cache"
-    else
-        cat "$cache"
-    fi
-}
-
-stable_commits() {
-    local cache
-    cache="$TMPTO/stable_commits"
-    if [ ! -f "$cache" ]; then
-        git rev-list "$TO_OLDEST..$REMOTE/$TO" | tee "$cache"
+        git rev-list "${range}" | tee "$cache"
     else
         cat "$cache"
     fi
@@ -60,28 +54,17 @@ commit_has_note() {
     fi
 }
 
-
-unstable_commits_with_notes() {
+commits_with_notes() {
     local cache
-    cache="$TMPTO/unstable_commits_with_notes"
+    local branchname
+    local range
+    branchname="$1"
+    range="$2"
+
+    cache="$TMPTO/${branchname}_commits_with_notes"
     if [ ! -f "$cache" ]; then
         local commit
-        (for commit in $(unstable_commits); do
-             if commit_has_note "$commit"; then
-                 echo "$commit"
-             fi
-        done) | tee "$cache"
-    else
-        cat "$cache"
-    fi
-}
-
-stable_commits_with_notes() {
-    local cache
-    cache="$TMPTO/stable_commits_with_notes"
-    if [ ! -f "$cache" ]; then
-        local commit
-        (for commit in $(stable_commits); do
+        (for commit in $(commits "$branchname" "$range"); do
              if commit_has_note "$commit"; then
                  echo "$commit"
              fi
@@ -149,21 +132,28 @@ LATEST_ROUNDUP_URL.
 
 EOF
 
-echo "The following changes were applied to release-16.09:"
 
-(for commit in $(stable_commits_with_notes); do
-    log_commit "$commit"
-done) | cat
+changes_for() {
+    local branch
+    local range
+    branch="$1"
+    range="$2"
+
+    echo "The following changes were applied to ${branch}"
+
+    (for commit in $(commits_with_notes "$branch" "$range"); do
+         log_commit "$commit"
+     done) | cat
+}
+
+changes_for "release-16.09" "$TO_OLDEST..$REMOTE/$TO"
 
 echo "======================================================================"
 echo ""
 echo ""
 echo ""
-echo "The following changes were applied to unstable:"
 
-(for commit in $(unstable_commits_with_notes); do
-    log_commit "$commit"
- done) | cat
+changes_for "unstable" "$TO_OLDEST..$REMOTE/$TO"
 
 cat <<EOF
 
