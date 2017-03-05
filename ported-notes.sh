@@ -146,14 +146,18 @@ changes_for() {
      done) | cat
 }
 
+separator() {
+    echo "======================================================================"
+    echo ""
+    echo ""
+    echo ""
+}
+
 changes_for "release-16.09" "$TO_OLDEST..$REMOTE/$TO"
 
-echo "======================================================================"
-echo ""
-echo ""
-echo ""
+separator
 
-changes_for "unstable" "$TO_OLDEST..$REMOTE/$TO"
+changes_for "unstable" "$UPSTREAM_OLDEST..$REMOTE/$UPSTREAM"
 
 cat <<EOF
 
