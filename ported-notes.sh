@@ -8,11 +8,6 @@ set -o pipefail
 TMPDIR="/tmp"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-REMOTE="origin"
-UPSTREAM="master"
-TO_SHORT="16.09"
-TO="release-${TO_SHORT}"
-
 source "$DIR/state/port_state.sh"
 
 readonly TMPTO=$(mktemp -d ported.XXXXXXXXXX -p "$TMPDIR")
@@ -116,16 +111,23 @@ Subject: Security fixes from $(date -u "+%F %R %Z")
 --text follows this line--
 <#secure method=pgp mode=sign>
 
-The following issues have been resolved in NixOS in $TO and
-unstable. They remain potentially vulnerable on older major
-releases.
+The following issues have been resolved in NixOS in release-16.09,
+release-17.03, and unstable. They remain potentially vulnerable on
+older major releases.
 
-These patches will be released to the unstable and
-$TO channels when Hydra finishes building the "tested" job
+These patches will be released to the release-16.09, release-17.03,
+and unstable channels when Hydra finishes building the "tested" job
 for each channel:
 
- - https://hydra.nixos.org/job/nixos/${TO}/tested
+ - https://hydra.nixos.org/job/nixos/release-16.09/tested
+ - https://hydra.nixos.org/job/nixos/release-17.03/tested
  - https://hydra.nixos.org/job/nixos/trunk-combined/tested
+
+Currently, 17.03 is considered beta. It will be released around the
+end of March. NixOS typically only supports one release at a time.
+This means when 17.03 is released you should upgrade as soon as
+possible. To ease this transition, I've decided to extend 16.09
+security patches for one month after 17.03 is released.
 
 Please consider helping with the next security roundup by commenting on
 LATEST_ROUNDUP_URL.
@@ -153,11 +155,11 @@ separator() {
     echo ""
 }
 
-changes_for "release-16.09" "$TO_OLDEST..$REMOTE/$TO"
+changes_for "release-16.09" "$RELEASE_16_09_SENT..origin/release-16.09"
 
 separator
 
-changes_for "unstable" "$UPSTREAM_OLDEST..$REMOTE/$UPSTREAM"
+changes_for "unstable" "$MASTER_SENT..origin/master"
 
 cat <<EOF
 
@@ -168,8 +170,8 @@ https://github.com/nixos/security
 EOF
 
 update_state() {
-    echo "TO_OLDEST=$(git rev-parse "$REMOTE/$TO")"
-    echo "UPSTREAM_OLDEST=$(git rev-parse "$REMOTE/$UPSTREAM")"
+    echo "RELEASE_16_09_SENT=$(git rev-parse "origin/release-16.09")"
+    echo "MASTER_SENT=$(git rev-parse "origin/master")"
 }
 
 update_state > "$DIR/state/port_state.sh"
