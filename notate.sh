@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #!/usr/bin/env nix-shell
 #!nix-shell -i bash -p git
 
@@ -94,10 +95,10 @@ cleanup_basic() {
 trap cleanup_basic EXIT
 
 prompt_next() {
-    echo "Processing $@"
+    echo "Processing" "$@"
     echo "Press enter to continue, or quit to exit."
     read -r x
-    if [ "x$x" == "xquit" ]; then
+    if [ "x$x" = "xquit" ]; then
         exit 1
     fi
 }
