@@ -159,6 +159,10 @@ changes_for "release-16.09" "$RELEASE_16_09_SENT..origin/release-16.09"
 
 separator
 
+changes_for "release-17.03" "$RELEASE_17_03_SENT..origin/release-17.03"
+
+separator
+
 changes_for "unstable" "$MASTER_SENT..origin/master"
 
 cat <<EOF
@@ -170,8 +174,9 @@ https://github.com/nixos/security
 EOF
 
 update_state() {
-    echo "RELEASE_16_09_SENT=$(git rev-parse "origin/release-16.09")"
     echo "MASTER_SENT=$(git rev-parse "origin/master")"
+    echo "RELEASE_16_09_SENT=$(git rev-parse "origin/release-16.09")"
+    echo "RELEASE_17.03_SENT=$(git rev-parse "origin/release-17.03")"
 }
 
 update_state > "$DIR/state/port_state.sh"
