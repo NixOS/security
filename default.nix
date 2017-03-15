@@ -128,4 +128,27 @@ in rec {
       '';
     };
   };
+
+  nixvulns = rec {
+    dependencies = with pkgs; [
+      notmuch
+    ];
+
+    shell = mkDerivation {
+      name = "nixos-security-tools-shell-nixvulns";
+      src = ./.;
+
+      buildInputs = dependencies ++ (with pkgs; [
+        rustfmt
+        rustc
+        cargo
+        gdb
+      ]);
+
+      shellHook = ''
+        cd nixvulns;
+      '';
+    };
+  };
+
 }

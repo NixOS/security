@@ -1,0 +1,23 @@
+[root]
+name = "nixvulns"
+version = "0.1.0"
+dependencies = [
+ "notmuch-sys 4.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "libc"
+version = "0.2.21"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "notmuch-sys"
+version = "4.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[metadata]
+"checksum libc 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)" = "88ee81885f9f04bff991e306fea7c1c60a5f0f9e409e99f6b40e3311a3363135"
+"checksum notmuch-sys 4.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "799e7a31a59d58f504b69ffbf0e79363777026212637dbbfabc2ad6e2104acbd"

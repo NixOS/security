@@ -1,3 +1,3 @@
 let
   sec = import ./default.nix {};
-in sec.lwnvulns.shell
+in sec.nixvulns.shell
