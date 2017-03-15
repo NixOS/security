@@ -1,7 +1,0 @@
-[package]
-name = "nixvulns"
-version = "0.1.0"
-authors = ["Graham Christensen <graham@grahamc.com>"]
-
-[dependencies]
-notmuch-sys = "4.4.1"
